@@ -10,15 +10,13 @@ use App\Helpers\SettingManager;
  */
 class OpenWeatherMap extends sensor
 {
-    public $supportedAttributes = ["connected"];
+    public $supportedAttributes = [];
 
     public function __construct($meta){
         $this->meta = $meta;
         $this->features = $this->getFeatures($this);
 
-        $username = SettingManager::get('apikey', 'openweathermap')['value'];
-
-        $this->setAttributes('connected', 0);
+        $apiKey = SettingManager::get('apikey', 'openweathermap')['value'];
     }
 
     // API (GET): http://localhost/api/v2/device/(hostname)/state/(value)
