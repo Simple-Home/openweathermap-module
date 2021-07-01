@@ -34,13 +34,14 @@
 
 ## Installation
 ```composer require thebradleysanders/openweathermap-module```
+To Test: ```php artisan simplehome:integrations:all```
+To Schedule: ```php artisan schedule:work ```
+
 
 ## Config Keys
 #### Integration Settings
-
-#### Device Type: light Settings
-`
-#### Device Type: toggle Settings
+*  apiToken
+*  location
 
 
 ## License
