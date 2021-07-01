@@ -33,9 +33,9 @@
 *  Simple Home Server
 
 ## Installation
-```composer require thebradleysanders/openweathermap-module```
-To Test: ```php artisan simplehome:integrations:all```
-To Schedule: ```php artisan schedule:work ```
+```composer require thebradleysanders/openweathermap-module```  
+To Test: ```php artisan simplehome:integrations:all```   
+To Schedule: ```php artisan schedule:work ```   
 
 
 ## Config Keys
