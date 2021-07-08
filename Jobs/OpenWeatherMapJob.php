@@ -28,9 +28,21 @@ class OpenWeatherMapJob implements ShouldQueue
      */
     public function handle()
     {
+        $this->apiKey = SettingManager::get('apiKey', 'openweathermap')['value'];
+        $this->location = SettingManager::get('location', 'openweathermap')['value'];
+
+        //verify settings
+        if (!isset($this->apiKey) || !isset($this->location)){
+            exit("Error: Required settings not set");
+        }
+
         $owm = $this->getCurrent("http://api.openweathermap.org/data/2.5/weather");
-        $this->createProperty("Outdoor Weather Summary", "fas fa-sun", "currentDescription", ucwords($owm['weather'][0]['description']));
-        $this->createProperty("Outdoor Weather", "fas fa-sun", "currentTemp", $owm['main']['temp']);
+        if(array_key_exists("weather", $owm)){
+            $this->createProperty("Outdoor Weather Summary", "fas fa-sun", "currentDescription", ucwords($owm['weather'][0]['description']));
+        }
+        if(array_key_exists("main", $owm)){
+            $this->createProperty("Outdoor Weather", "fas fa-sun", "currentTemp", $owm['main']['temp']);
+        }
     }
 
     private function createProperty($name, $icon, $key, $value){
@@ -43,7 +55,7 @@ class OpenWeatherMapJob implements ShouldQueue
             $property->feature = "state";
             $property->nick_name = $name;
             $property->room_id = 1;
-            $property->device_id = 1;
+            $property->device_id = 1; //this needs to be
             $property->history = 0;
             $property->save();
         }
@@ -53,12 +65,9 @@ class OpenWeatherMapJob implements ShouldQueue
     }
 
     private function getCurrent($url){
-        $apiKey = SettingManager::get('apiKey', 'openweathermap')['value'];
-        $location = SettingManager::get('location', 'openweathermap')['value'];
-
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $url."?q=".$location."&appid=".$apiKey,
+            CURLOPT_URL => $url."?q=".$this->location."&appid=".$this->apiKey,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_MAXREDIRS => 10,
