@@ -15,7 +15,7 @@ class Device
         $id = $this->device->id;
 
         //All device types get this
-        //SettingManager::register('commandtopic', '', 'string', 'device-'.$id);
+        //SettingManager::register('setting1', '', 'string', 'device-'.$id);
 
         switch ($this->device->type) {
             case "light":

@@ -14,6 +14,13 @@ class OpenWeatherMapServiceProvider extends ServiceProvider
      */
     protected $defer = false;
 
+    /** Settings this integration needs to create  */
+    public function createSettings()
+    {
+        SettingManager::register('apiKey', '', 'string', 'openweathermap');
+        SettingManager::register('location', '', 'string', 'openweathermap');
+    }
+
     /**
      * Boot the application events.
      *
@@ -23,6 +30,7 @@ class OpenWeatherMapServiceProvider extends ServiceProvider
     {
         $this->registerTranslations();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->createSettings();
     }
 
     /**
